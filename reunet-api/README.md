@@ -14,16 +14,7 @@
 }
 ```
 ## Response
-```JSON
-{
-    "firstname": "",
-    "lastname": "",
-    "email": "",
-    "role": "",
-    "password": "",
-}
-```
-
+    user registered successfully
 
 ### [POST] /api/v1/auth/login
 ```json
