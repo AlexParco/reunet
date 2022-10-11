@@ -30,8 +30,4 @@ public class TestController {
         return "Welcome to test route";
     }
 
-    @GetMapping("/test")
-    public String TestHome2() {
-        return "Welcome to test route";
-    }
 }
