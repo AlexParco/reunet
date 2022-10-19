@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,14 +15,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reunet.app.models.User;
 import com.reunet.app.models.UserDetailsImpl;
 import com.reunet.app.models.payload.LoginRequest;
 import com.reunet.app.models.payload.RegisterRequest;
-import com.reunet.app.models.payload.UserWithTokenResponse;
+import com.reunet.app.models.payload.LoginResponse;
 import com.reunet.app.security.jwt.JwtUtils;
 import com.reunet.app.services.UserServices;
 
@@ -41,7 +39,6 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    // MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
         try {
@@ -85,18 +82,11 @@ public class AuthController {
             String token = jwtUtils.generateToken(loginRequest.getEmail());
 
             User user = userServices.findByEmail(jwtUtils.getEmailFromToken(token)).get();
+            user.setRole(roles.get(0));
 
-            UserWithTokenResponse userWithTokenResponse = new UserWithTokenResponse(
-                    userDetails.getId(),
-                    user.getFirstname(),
-                    user.getLastname(),
-                    userDetails.getUsername(),
-                    roles.get(0),
-                    user.getAvatar(),
-                    token);
-            System.out.println(userWithTokenResponse.toString());
-
-            return ResponseEntity.ok().body(userWithTokenResponse);
+            return ResponseEntity.ok().body(new LoginResponse(
+                    user,
+                    token));
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

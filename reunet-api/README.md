@@ -20,7 +20,7 @@
 ```json
 {
     "email": "alex",
-"password": "password",
+    "password": "password",
 }
 ```
 ## Response

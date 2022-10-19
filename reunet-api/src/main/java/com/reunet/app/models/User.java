@@ -2,6 +2,8 @@ package com.reunet.app.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,6 +24,7 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
+    @JsonIgnore
     private String password;
     private String role;
     private String avatar = "";
