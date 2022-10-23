@@ -2,6 +2,7 @@ package ayoria.chagua.reunetapp.api
 
 import android.util.Base64
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -10,7 +11,7 @@ import java.io.IOException
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://192.168.0.2:9999/api/v1/auth/"
+    private const val BASE_URL = "http://192.168.0.5:9999/api/v1/"
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor{ chain ->

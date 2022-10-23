@@ -4,27 +4,36 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import ayoria.chagua.reunetapp.BaseActivity
 import ayoria.chagua.reunetapp.MainActivity
 import ayoria.chagua.reunetapp.api.RetrofitClient
 import ayoria.chagua.reunetapp.databinding.ActivityMainBinding
 import ayoria.chagua.reunetapp.databinding.ActivitySignInBinding
+import ayoria.chagua.reunetapp.databinding.ActivitySignUpBinding
 import ayoria.chagua.reunetapp.models.LoginResponse
+import ayoria.chagua.reunetapp.models.User
 import ayoria.chagua.reunetapp.storage.SharedPrefManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class SignInActivity : AppCompatActivity() {
+class SignInActivity : BaseActivity<ActivitySignInBinding>(ActivitySignInBinding::inflate) {
 
-    private lateinit var binding: ActivitySignInBinding
+    private lateinit var sharedPreference: SharedPrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySignInBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-        val intent = Intent(this, MainActivity::class.java)
+
+        sharedPreference = SharedPrefManager().also{
+            it.setSharedPreference(this)
+        }
+
+        binding.goSignUp.setOnClickListener {
+            val intentUp = Intent(this, SignUpActivity::class.java)
+
+            startActivity(intentUp)
+        }
 
         binding.signInBtn.setOnClickListener{
             val email = binding.email.text.toString().trim()
@@ -41,34 +50,25 @@ class SignInActivity : AppCompatActivity() {
                 .enqueue(object : Callback<LoginResponse>{
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        Toast.makeText(applicationContext, "huvo un error onfailure" + t.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, "huvo un error en la funcion onfailure " + t.message, Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onResponse(
                         call: Call<LoginResponse>,
                         response: Response<LoginResponse>
                     ) {
-                        if((response.body()?.user)!!.id > 0){
-                            SharedPrefManager.getInstance(applicationContext).saveUser(response.body()?.user!!)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
-
-                        }else{
-                            Toast.makeText(applicationContext, "Hubo un error onResponse" + response.errorBody().toString(), Toast.LENGTH_SHORT).show()
-                        }
+                        startLoginPref(email, password)
                     }
-
-
-
                 })
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if(SharedPrefManager.getInstance(this).isLoggedIn){
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+    fun startLoginPref(email: String, password: String){
+        val user: User? = sharedPreference.getUser()
+        if(email == user?.email && password == user.password){
+            startActivity(Intent(this, MainActivity::class.java))
+        }else{
+            Toast.makeText(this, "Error with email or password", Toast.LENGTH_LONG).show()
         }
     }
 }

@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -44,13 +47,24 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
     //Retrofit library... to  consume api
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    //gson library
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
-    implementation 'com.google.code.gson:gson:2.8.9'
-    //To debugging the requests
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+        //To debugging the requests
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+        //Gson
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    //Dagger hilt
+    implementation "com.google.dagger:hilt-android:2.41"
+    kapt "com.google.dagger:hilt-android-compiler:2.41"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //creo que falta una libreria
+
 
     //To design
     implementation("androidx.cardview:cardview:1.0.0")

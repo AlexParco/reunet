@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".auth.SignInActivity"
-    android:padding="40dp">
+    android:paddingHorizontal="30dp"
+    android:paddingTop="60dp">
     <LinearLayout
         android:id="@+id/container_form"
         android:layout_width="match_parent"
@@ -21,13 +22,35 @@
             android:src="@drawable/logo"
             android:id="@+id/logo_reunet"
             />
-
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login to Reune T to continue"
+            android:orientation="horizontal"
             android:gravity="center"
-            />
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Do not you have an account yet?"
+                android:gravity="center"
+                />
+            <Button
+                android:layout_width="89dp"
+                android:layout_height="wrap_content"
+                android:text="Sign up"
+                app:backgroundTint="#ffff"
+                android:textColor="#272626"
+                android:textAllCaps="false"
+                android:id="@+id/goSignUp"
+                android:layout_marginStart="4dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                />
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/email"
@@ -41,7 +64,7 @@
             android:drawableStart="@drawable/custom_email_icon"
             android:background="@drawable/custom_input"
             android:drawablePadding="15dp"
-            android:hint="@string/app_name"
+            android:hint="Email address"
             android:inputType="textEmailAddress"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +84,7 @@
             android:drawableStart="@drawable/custom_lock_icon"
             android:background="@drawable/custom_input"
             android:drawablePadding="15dp"
-            android:hint="@string/app_name"
+            android:hint="Password"
             android:inputType="textPassword"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -96,5 +119,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="Any text"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

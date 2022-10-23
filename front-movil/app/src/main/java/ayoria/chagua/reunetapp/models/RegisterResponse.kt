@@ -1,5 +1,5 @@
 package ayoria.chagua.reunetapp.models
 
-data class DefaultResponseRegister(
+data class RegisterResponse(
     val message: String
 )
