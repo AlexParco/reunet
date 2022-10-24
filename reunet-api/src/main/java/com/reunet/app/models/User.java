@@ -22,16 +22,23 @@ public class User {
     private Long id;
 
     private String firstname;
+
     private String lastname;
+
     private String email;
+
     @JsonIgnore
     private String password;
+
     private String role;
+
     private String avatar = "";
 
+    @JsonIgnore
     @Column(name = "created_at")
     private Date CreatedAt = new Date();
 
+    @JsonIgnore
     @Column(name = "updated_at")
     private Date UpdatedAt = new Date();
 }

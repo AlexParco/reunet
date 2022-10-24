@@ -1,4 +1,4 @@
-package com.reunet.app.models.payload;
+package com.reunet.app.models.payload.response;
 
 import com.reunet.app.models.User;
 

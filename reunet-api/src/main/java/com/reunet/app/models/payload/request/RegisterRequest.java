@@ -1,4 +1,4 @@
-package com.reunet.app.models.payload;
+package com.reunet.app.models.payload.request;
 
 import lombok.Setter;
 import lombok.Getter;

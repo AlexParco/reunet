@@ -1,9 +1,9 @@
 package com.reunet.app.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.reunet.app.models.User;
 import com.reunet.app.models.UserDetailsImpl;
-import com.reunet.app.models.payload.LoginRequest;
-import com.reunet.app.models.payload.RegisterRequest;
-import com.reunet.app.models.payload.LoginResponse;
+import com.reunet.app.models.payload.request.LoginRequest;
+import com.reunet.app.models.payload.request.RegisterRequest;
+import com.reunet.app.models.payload.response.LoginResponse;
+import com.reunet.app.models.payload.response.Response;
 import com.reunet.app.security.jwt.JwtUtils;
 import com.reunet.app.services.UserServices;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -42,29 +46,35 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
         try {
-            Map<String, String> response = new HashMap<String, String>();
-
             if (userServices.existsByEmail(registerRequest.getEmail())) {
-                response.put("message", "email is alredy taken");
-                return ResponseEntity.badRequest().body(response);
+                return ResponseEntity.badRequest().body(new Response<String>(
+                        HttpServletResponse.SC_BAD_REQUEST,
+                        "email is alredy taken",
+                        ""));
             }
             userServices.saveUser(registerRequest);
 
-            response.put("message", "user registered successfully");
-            return ResponseEntity.ok().body(response);
+            return ResponseEntity.ok().body(new Response<String>(
+                    HttpServletResponse.SC_OK,
+                    "user registered seccessfully",
+                    null));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(new Response<String>(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "error creating user",
+                    ""));
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-            Map<String, String> response = new HashMap<String, String>();
 
             if (!userServices.existsByEmail(loginRequest.getEmail())) {
-                response.put("message", "user with this email doesnt exists");
-                return ResponseEntity.badRequest().body(response);
+                return ResponseEntity.badRequest().body(new Response<String>(
+                        HttpServletResponse.SC_BAD_REQUEST,
+                        "user with this email doesnt exists",
+                        ""));
             }
 
             Authentication authentication = authenticationManager.authenticate(
@@ -84,12 +94,17 @@ public class AuthController {
             User user = userServices.findByEmail(jwtUtils.getEmailFromToken(token)).get();
             user.setRole(roles.get(0));
 
-            return ResponseEntity.ok().body(new LoginResponse(
-                    user,
-                    token));
+            return ResponseEntity.ok().body(new Response<LoginResponse>(
+                    HttpServletResponse.SC_OK,
+                    "",
+                    new LoginResponse(user, token)));
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.internalServerError().body(new Response<String>(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage(),
+                    ""));
         }
+
     }
 }

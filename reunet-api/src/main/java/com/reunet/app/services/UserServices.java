@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.reunet.app.models.User;
-import com.reunet.app.models.payload.RegisterRequest;
+import com.reunet.app.models.payload.request.RegisterRequest;
 import com.reunet.app.repository.UserRepository;
 
 @Service
