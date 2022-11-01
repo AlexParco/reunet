@@ -31,6 +31,8 @@ public class GroupServices {
     }
 
     public Group updateGroup(Group group) {
+        group.setCreatedAt(new Date());
+        group.setUpdatedAt(new Date());
         return groupRepository.save(group);
     }
 
