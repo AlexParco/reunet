@@ -35,6 +35,8 @@ public class ActivityServices {
     }
 
     public Activity updateActivity(Activity activity) {
+        activity.setCreatedAt(new Date());
+        activity.setUpdatedAt(new Date());
         return activityReponsitory.save(activity);
     }
 
