@@ -81,8 +81,9 @@ public class GroupController {
     }
 
     @PutMapping("{id}")
-    private ResponseEntity<?> update(@RequestBody Group group) {
+    private ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody Group group) {
         try {
+            group.setId(Long.parseLong(id));
             Group updateGroup = groupServices.updateGroup(group);
 
             return ResponseEntity.ok().body(new Response<Group>(
@@ -99,7 +100,7 @@ public class GroupController {
     }
 
     @DeleteMapping("{id}")
-    private ResponseEntity<?> delete(@RequestParam String id) {
+    private ResponseEntity<?> delete(@PathVariable("id") String id) {
         try {
             groupServices.deleteGroup(Long.parseLong(id));
             return ResponseEntity.ok().body(new Response<String>(
