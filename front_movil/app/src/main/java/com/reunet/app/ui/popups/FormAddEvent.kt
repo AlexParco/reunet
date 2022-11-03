@@ -70,7 +70,7 @@ class FormAddEvent : BaseActivity<ActivityFormAddEventBinding>(ActivityFormAddEv
         binding.createActivity.setOnClickListener{
             val name = binding.activityName.text.toString()
             val type = typeActivity
-            val closedat = binding.activityClose.text.toString()
+            val closedat = binding.activityClose.text.toString().
 
             val formatter = SimpleDateFormat("yyyy-MM-dd")
             val dateClose = formatter.parse(closedat) as Date

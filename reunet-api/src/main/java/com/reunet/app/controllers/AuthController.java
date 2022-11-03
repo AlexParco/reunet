@@ -56,7 +56,7 @@ public class AuthController {
 
             return ResponseEntity.ok().body(new Response<String>(
                     HttpServletResponse.SC_OK,
-                    "user registered seccessfully",
+                    "user registered successfully",
                     null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Response<String>(

@@ -48,5 +48,4 @@ interface GroupService {
             return retrofit.create(GroupService::class.java)
         }
     }
-
 }

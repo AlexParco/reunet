@@ -26,7 +26,7 @@ interface ActivityService {
     @POST("activity")
     @Headers("Content-Type: application/json")
     suspend fun createActivity(@Body activity: ActivityRequest):
-            Response<ResponseApi<Activity>>
+            Response<ResponseApi<String>>
 
     companion object {
         @Provides
