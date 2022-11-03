@@ -14,11 +14,7 @@ import com.reunet.app.ui.BaseActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.Calendar.DAY_OF_MONTH
 
@@ -72,15 +68,13 @@ class FormAddEvent : BaseActivity<ActivityFormAddEventBinding>(ActivityFormAddEv
             val type = typeActivity
             val closedat = binding.activityClose.text.toString()
 
-            val formatter = SimpleDateFormat("yyyy-MM-dd")
-            val dateClose = formatter.parse(closedat) as Date
 
-            Toast.makeText(this@FormAddEvent, dateClose.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@FormAddEvent, closedat, Toast.LENGTH_SHORT).show()
 
             event = ActivityRequest(
-                dateClose,
                 name,
-                type
+                type,
+                closedat
             )
 
             try{

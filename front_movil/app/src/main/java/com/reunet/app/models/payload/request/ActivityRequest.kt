@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 data class ActivityRequest(
-    @SerializedName("closed_at") var closed_at: Date,
     @SerializedName("name") var name: String,
-    @SerializedName("typeActivity") var type: String
+    @SerializedName("type") var type: String,
+    @SerializedName("closed_at") var closed_at: String
 )
