@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,10 +32,12 @@ public class Activity {
     private String name;
 
     @JsonAlias("type")
+    @JsonProperty("type")
     @Column(name = "type_activity")
     private String typeActivity;
 
     @JsonAlias("closed_at")
+    @JsonProperty("closed_at")
     @Column(name = "closed_at")
     private Date closedAt;
 
