@@ -1,4 +1,4 @@
-package com.reunet.app
+package com.reunet.app.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

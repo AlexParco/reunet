@@ -15,12 +15,14 @@ interface AuthService {
 
     @Headers("Content-Type: application/json")
     @POST("login")
-    suspend fun loginService(@Body user: LoginRequest): Response<ResponseApi<LoginResponse>>
+    suspend fun loginService(@Body user: LoginRequest):
+            Response<ResponseApi<LoginResponse>>
 
 
     @Headers("Content-Type: application/json")
     @POST("register")
-    suspend fun registerService(@Body user: RegisterRequest): Response<ResponseApi<String>>
+    suspend fun registerService(@Body user: RegisterRequest):
+            Response<ResponseApi<String>>
 
     companion object {
         fun build(): AuthService {
