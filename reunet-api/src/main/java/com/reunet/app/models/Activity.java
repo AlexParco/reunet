@@ -31,6 +31,11 @@ public class Activity {
 
     private String name;
 
+    @JsonAlias("group_id")
+    @JsonProperty("group_id")
+    @Column(name = "group_id")
+    private Long group_id;
+
     @JsonAlias("type")
     @JsonProperty("type")
     @Column(name = "type_activity")
@@ -42,7 +47,6 @@ public class Activity {
     private Date closedAt;
 
     @Column(name = "created_at")
-    @JsonIgnore
     private Date createdAt;
 
     @Column(name = "updated_at")
