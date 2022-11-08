@@ -38,7 +38,6 @@ public class Group {
     private String description;
 
     @Column(name = "created_at")
-    @JsonIgnore
     private Date createdAt;
 
     @Column(name = "updated_at")

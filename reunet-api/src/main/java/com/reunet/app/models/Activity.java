@@ -47,6 +47,7 @@ public class Activity {
     private Date closedAt;
 
     @Column(name = "created_at")
+    @JsonIgnore
     private Date createdAt;
 
     @Column(name = "updated_at")
