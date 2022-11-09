@@ -1,6 +1,5 @@
 package com.reunet.app.services;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.reunet.app.models.Activity;
+import com.reunet.app.models.Group;
 import com.reunet.app.repository.ActivityReponsitory;
 
 @Service
@@ -39,6 +39,10 @@ public class ActivityServices {
         activity.setCreatedAt(new Date());
         activity.setUpdatedAt(new Date());
         return activityReponsitory.save(activity);
+    }
+
+    public List<Group> findAllByGroupsId(Long groupId) {
+        return activityReponsitory.findAllByGroupId(groupId);
     }
 
 }

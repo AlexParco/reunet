@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reunet.app.models.Activity;
+import com.reunet.app.models.Group;
 import com.reunet.app.models.payload.response.Response;
 import com.reunet.app.services.ActivityServices;
 
@@ -27,6 +28,23 @@ public class ActivityController {
 
     @Autowired
     private ActivityServices activityServices;
+
+    @GetMapping("/group/{id}")
+    private ResponseEntity<?> getAllGroupsById(@PathVariable("id") Long id) {
+        try {
+            List<Group> groups = activityServices.findAllByGroupsId(id);
+            return ResponseEntity.ok().body(new Response<List<Group>>(
+                    HttpServletResponse.SC_OK,
+                    "",
+                    groups));
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new Response<String>(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage(),
+                    null));
+        }
+    }
 
     @GetMapping("")
     private ResponseEntity<?> allActivities() {
