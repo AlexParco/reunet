@@ -10,7 +10,5 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(ActivityEdi
     private var USER: String = "USER"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val user: User = intent.getSerializableExtra(USER) as User
-        setContentView(R.layout.activity_edit_profile)
     }
 }

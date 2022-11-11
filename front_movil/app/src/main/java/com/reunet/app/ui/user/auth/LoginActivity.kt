@@ -20,7 +20,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private lateinit var sharedPreferenceUtil: SharedPreferenceUtil
 
     private var USER: String = "USER"
-    private var TOKEN: String = "TOKEN"
 
     private val authService by lazy {
         AuthService.build()
@@ -61,7 +60,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 if(loginResponse != null) {
                     intent = Intent(this@LoginActivity, MainActivity::class.java)
                     intent.putExtra(USER, loginResponse.data.user)
-                    intent.putExtra(TOKEN, loginResponse.data.token)
+
+                    sharedPreferenceUtil.saveToken(loginResponse.data.token)
+                    sharedPreferenceUtil.saveUser(loginResponse.data.user)
+
                     startActivity(intent)
                 }
             }else if(call.code().equals(400)){

@@ -28,15 +28,20 @@
 
         <TextView
             android:id="@+id/groupName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="241dp"
+            android:layout_height="56dp"
             android:layout_alignTop="@+id/imgGroup"
             android:layout_alignBottom="@+id/imgGroup"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="-8dp"
+            android:layout_marginEnd="26dp"
+            android:layout_marginBottom="-9dp"
+            android:layout_toStartOf="@+id/infoGroup"
             android:layout_toEndOf="@+id/imgGroup"
-            android:text="Group name"
             android:gravity="center"
+            android:text="Group name"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
 
         <ImageButton
             android:id="@+id/infoGroup"

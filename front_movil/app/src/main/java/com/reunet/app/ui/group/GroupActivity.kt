@@ -1,39 +1,50 @@
-package com.reunet.app.ui.groups
+package com.reunet.app.ui.group
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.reunet.app.databinding.ActivityGroupsBinding
 import com.reunet.app.models.Group
 import com.reunet.app.services.GroupService
+import com.reunet.app.storage.SharedPreferenceUtil
 import com.reunet.app.ui.BaseActivity
-import com.reunet.app.ui.events.EventsActivity
-import com.reunet.app.ui.popups.FormAddGroup
+import com.reunet.app.ui.event.EventActivity
+import com.reunet.app.ui.adapter.GroupAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class GroupsActivity : BaseActivity<ActivityGroupsBinding>(ActivityGroupsBinding::inflate) {
-    private var TOKEN: String = "TOKEN"
+class GroupActivity : BaseActivity<ActivityGroupsBinding>(ActivityGroupsBinding::inflate) {
+    private var ID: String = "ID"
 
     private lateinit var groups: List<Group>
+
     private lateinit var recyclerView: RecyclerView
 
     private val groupService by lazy{
-        GroupService.build(intent.getStringExtra(TOKEN).toString())
+        sharedPreferencesUtil.getToken()?.let { GroupService.build(it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPreferencesUtil = SharedPreferenceUtil().also {
+            it.setSharedPreference(this)
+        }
+
+
         binding.addGroupBtn.setOnClickListener{
-            startActivity(Intent(this, FormAddGroup::class.java))
+            intent = Intent(this, FormAddGroup::class.java)
+            startActivity(intent)
         }
+
         binding.checkActivities.setOnClickListener{
-            startActivity(Intent(this, EventsActivity::class.java))
+            intent = Intent(this, EventActivity::class.java)
+            startActivity(intent)
         }
+
         getGroups()
     }
 
@@ -46,18 +57,20 @@ class GroupsActivity : BaseActivity<ActivityGroupsBinding>(ActivityGroupsBinding
 
     private fun getGroups(){
         CoroutineScope(Dispatchers.IO).launch {
-            val call = groupService.getGroups()
+            val call = groupService?.getGroups()
             try {
-                if (call.isSuccessful){
-                    val groupResponse = call.body()
-                    if (groupResponse != null){
-                        groups = groupResponse.data
-                        runOnUiThread{
-                            setRecyclerView(groups)
+                if (call != null) {
+                    if (call.isSuccessful){
+                        val groupResponse = call.body()
+                        if (groupResponse != null){
+                            groups = groupResponse.data
+                            runOnUiThread{
+                                setRecyclerView(groups)
+                            }
                         }
+                    }else{
+                        call.errorBody()?.close()
                     }
-                }else{
-                    call.errorBody()?.close()
                 }
             }catch (e: Exception){
                 Log.i("Error with coroutines", e.toString())

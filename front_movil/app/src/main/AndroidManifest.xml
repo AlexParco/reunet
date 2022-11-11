@@ -16,14 +16,21 @@
         android:theme="@style/Theme.App"
         tools:targetApi="31">
         <activity
-            android:name=".ui.popups.InfoEvent"
+            android:name=".ui.event.EditEvent"
+            android:exported="false">
+        <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.group.EditGroup"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.popups.FormAddGroup"
+            android:name=".ui.group.FormAddGroup"
             android:exported="false"
             android:theme="@style/Theme.App.PopupTheme">
             <meta-data
@@ -31,22 +38,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.popups.FormAddEvent"
-            android:exported="false"
-            android:theme="@style/Theme.App.PopupTheme">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.events.EventsActivity"
+            android:name=".ui.event.FormAddEvent"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.groups.GroupsActivity"
+            android:name=".ui.event.EventActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.group.GroupActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

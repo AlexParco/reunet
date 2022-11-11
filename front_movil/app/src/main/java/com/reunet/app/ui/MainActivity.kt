@@ -9,15 +9,15 @@ import android.os.Bundle
 import android.util.Log
 import com.reunet.app.databinding.ActivityMainBinding
 import com.reunet.app.models.User
-import com.reunet.app.ui.events.EventsActivity
-import com.reunet.app.ui.groups.GroupsActivity
-import com.reunet.app.ui.user.account.EditProfileActivity
+import com.reunet.app.ui.event.EventActivity
+import com.reunet.app.ui.group.GroupActivity
 import java.io.File
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private var USER: String = "USER"
     private var TOKEN: String = "TOKEN"
+    private var ID: String = "ID"
 
     //For avatar image
     private val SELECT_ACTIVITY_IMG =  50
@@ -27,26 +27,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         super.onCreate(savedInstanceState)
 
         val user: User = intent.getSerializableExtra(USER) as User
-        val token: String = intent.getStringExtra(TOKEN).toString()
+
 
         val imageUriSaved = getImageUri(this@MainActivity, user.id.toLong())
 
         binding.username.text = "${user.firstname} ${user.lastname}"
 
-        binding.editProfileBtn.setOnClickListener{
-            intent = Intent(this@MainActivity, EditProfileActivity::class.java)
-            startActivity(intent)
-        }
-
         binding.btnActivities.setOnClickListener{
-            intent = Intent(this@MainActivity, EventsActivity::class.java)
-            intent.putExtra(TOKEN, token)
+            intent = Intent(this@MainActivity, EventActivity::class.java)
             startActivity(intent)
         }
 
         binding.btnGroups.setOnClickListener{
-            intent = Intent(this@MainActivity, GroupsActivity::class.java)
-            intent.putExtra(TOKEN, token)
+            intent = Intent(this@MainActivity, GroupActivity::class.java)
+            intent.putExtra(ID, user.id)
             startActivity(intent)
         }
 

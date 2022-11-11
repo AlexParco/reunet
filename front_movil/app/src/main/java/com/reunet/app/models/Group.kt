@@ -6,7 +6,8 @@ import java.io.Serializable
 data class Group(
     @SerializedName("id") var id: String,
     @SerializedName("userId") var userId: String,
-    @SerializedName("activityId") var activityId: String,
-    @SerializedName("name") var name: String
+    @SerializedName("description") var description: String,
+    @SerializedName("name") var name: String,
+    @SerializedName("createdAt") var createdAt: String
 ): Serializable
 

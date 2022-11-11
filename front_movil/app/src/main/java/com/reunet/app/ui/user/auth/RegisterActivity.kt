@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate) {
-    private lateinit var sharedPreferenceUtil: SharedPreferenceUtil
 
     private val authService by lazy {
         AuthService.build()
@@ -22,9 +21,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPreferenceUtil = SharedPreferenceUtil().also{
-            it.setSharedPreference(this)
-        }
 
         binding.registerBtn.setOnClickListener {
 
@@ -46,7 +42,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
             try {
                 if(validateData(firstname, lastname, email, password, passwordconfirm)){
                     register(user)
-                    sharedPreferenceUtil.saveUser(user)
                 }
             } catch (e: Exception) {
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
