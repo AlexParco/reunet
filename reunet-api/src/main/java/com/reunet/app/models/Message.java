@@ -1,7 +1,5 @@
 package com.reunet.app.models;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,41 +7,37 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Table(name = "groups")
 @Entity
-public class Group {
+@Table(name = "message")
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "group_id")
-    private Long id;
+    @Column(name = "message_id")
+    @JsonProperty("message_id")
+    private Long messageId;
 
-    @JsonAlias("user_id")
+    @JsonProperty("user_id")
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "name")
-    private String name;
+    @JsonProperty("group_id")
+    @Column(name = "group_id")
+    private Long groupId;
 
-    private String description;
+    @Column(name = "message_body")
+    @JsonProperty("body")
+    private String messageBody;
 
-    @Column(name = "created_at")
     @JsonProperty("created_at")
+    @Column(name = "created_at")
     private Date createdAt;
-
-    @Column(name = "updated_at")
-    @JsonIgnore
-    private Date updatedAt;
-
 }

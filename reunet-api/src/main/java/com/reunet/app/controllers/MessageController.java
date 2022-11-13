@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -17,52 +15,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.reunet.app.models.Participant;
+import com.reunet.app.models.Message;
 import com.reunet.app.models.payload.response.Response;
 import com.reunet.app.security.jwt.JwtUtils;
-import com.reunet.app.services.ParticipantServices;
+import com.reunet.app.services.MessageServices;
 import com.reunet.app.services.UserServices;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/v1/participants")
-public class ParcipantController {
+@RequestMapping("/api/v1/message")
+public class MessageController {
 
     @Autowired
-    ParticipantServices participantServices;
+    UserServices userServices;
 
     @Autowired
     JwtUtils jwtUtils;
 
     @Autowired
-    UserServices userServices;
-
-    @GetMapping("")
-    public ResponseEntity<?> getAllParticipants(@RequestParam Long groupid) {
-        try {
-            List<Participant> participants = participantServices.findAllParticipants(groupid);
-
-            return ResponseEntity.ok().body(new Response<List<Participant>>(
-                    HttpServletResponse.SC_OK,
-                    "",
-                    participants));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
-                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "error",
-                    null));
-        }
-    }
+    MessageServices messageServices;
 
     @PostMapping("")
-    public ResponseEntity<?> postParticipant(@RequestBody Participant participant,
+    public ResponseEntity<?> postMessage(@RequestBody Message message,
             @RequestHeader("Authorization") String token) {
         try {
             String email = jwtUtils.getEmailFromToken(token.substring(7));
             Long userId = userServices.getIdFromEmail(email);
-            participant.setUserId(userId);
+            message.setUserId(userId);
 
-            participantServices.create(participant);
+            messageServices.create(message);
 
             return ResponseEntity.ok().body(new Response<String>(
                     HttpServletResponse.SC_OK,
@@ -71,27 +52,27 @@ public class ParcipantController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(new Response<String>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "error creating new participant",
-                    null));
+                    e.getMessage(),
+                    ""));
         }
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteParticipant(@PathVariable("id") Long groupid) {
+    @GetMapping("")
+    public ResponseEntity<?> getAllMessagesByGroupId(@RequestParam Long groupid) {
         try {
-            participantServices.delete(groupid);
 
-            return ResponseEntity.ok().body(new Response<String>(
+            List<Message> messages = messageServices.findAllMessages(groupid);
+
+            return ResponseEntity.ok().body(new Response<List<Message>>(
                     HttpServletResponse.SC_OK,
                     "",
-                    null));
+                    messages));
+
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(new Response<String>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "error deleting participant",
-                    null));
-
+                    e.getMessage(),
+                    ""));
         }
     }
-
 }

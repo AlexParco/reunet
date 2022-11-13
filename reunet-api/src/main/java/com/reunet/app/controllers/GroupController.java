@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reunet.app.models.Group;
@@ -30,7 +29,7 @@ public class GroupController {
     private GroupServices groupServices;
 
     @GetMapping("")
-    private ResponseEntity<?> allGroups() {
+    private ResponseEntity<?> getAllGroups() {
         try {
             List<Group> groups = groupServices.findAllGroups();
             return ResponseEntity.ok().body(new Response<List<Group>>(
@@ -46,7 +45,7 @@ public class GroupController {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<?> groupById(@PathVariable("id") String id) {
+    private ResponseEntity<?> getGroupById(@PathVariable("id") String id) {
         try {
             Group group = groupServices.findGroupById(Long.parseLong(id)).orElseThrow();
             return ResponseEntity.ok().body(new Response<Group>(

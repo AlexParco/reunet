@@ -1,14 +1,21 @@
 package com.reunet.app.models;
 
-import javax.persistence.*;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Date;
 
 @Getter
 @Setter
@@ -34,7 +41,7 @@ public class User {
 
     private String avatar = "";
 
-    @JsonIgnore
+    @JsonProperty("created_at")
     @Column(name = "created_at")
     private Date CreatedAt = new Date();
 

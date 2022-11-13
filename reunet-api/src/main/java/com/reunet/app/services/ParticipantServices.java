@@ -7,14 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.reunet.app.models.Participant;
-import com.reunet.app.models.payload.ParticipantUser;
 import com.reunet.app.repository.ParticipantRepository;
+import com.reunet.app.repository.UserRepository;
 
 @Service
 public class ParticipantServices {
 
     @Autowired
     ParticipantRepository participantRepository;
+    UserRepository userRepository;
 
     public void create(Participant participant) {
         participant.setCreatedAt(new Date());
@@ -22,12 +23,12 @@ public class ParticipantServices {
         participantRepository.save(participant);
     }
 
-    public void delete(Long id) {
-        participantRepository.deleteById(id);
+    public void delete(Long groupId) {
+        participantRepository.deleteById(groupId);
     }
 
-    public List<ParticipantUser> findAllParticipantsByGroupId(Long groupId) {
-        return participantRepository.findAllParticipantsByGroupId(groupId);
+    public List<Participant> findAllParticipants(Long groupId) {
+        return participantRepository.findAllByGroupId(groupId);
     }
 
 }

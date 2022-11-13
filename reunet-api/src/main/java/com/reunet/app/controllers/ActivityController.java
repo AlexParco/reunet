@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reunet.app.models.Activity;
@@ -28,32 +29,15 @@ public class ActivityController {
     @Autowired
     private ActivityServices activityServices;
 
-    @GetMapping("/group/{id}")
-    private ResponseEntity<?> getAllGroupsById(@PathVariable("id") Long id) {
+    @GetMapping("")
+    private ResponseEntity<?> getAllActivitysByGroupId(@RequestParam Long groupid) {
         try {
-            List<Activity> groups = activityServices.findAllByGroupsId(id);
+            List<Activity> groups = activityServices.findAllByGroupsId(groupid);
             return ResponseEntity.ok().body(new Response<List<Activity>>(
                     HttpServletResponse.SC_OK,
                     "",
                     groups));
 
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
-                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    e.getMessage(),
-                    null));
-        }
-    }
-
-    @GetMapping("")
-    private ResponseEntity<?> allActivities() {
-        try {
-            List<Activity> activities = activityServices.findAllActivities();
-
-            return ResponseEntity.ok().body(new Response<List<Activity>>(
-                    HttpServletResponse.SC_OK,
-                    "",
-                    activities));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(new Response<String>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -101,7 +85,7 @@ public class ActivityController {
     @PutMapping("{id}")
     private ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody Activity activity) {
         try {
-            activity.setActivityId(Long.parseLong(id));
+            activity.setId(Long.parseLong(id));
 
             Activity createActivity = activityServices.updateActivity(activity);
 
@@ -119,9 +103,9 @@ public class ActivityController {
     }
 
     @DeleteMapping("{id}")
-    private ResponseEntity<?> delete(@PathVariable("id") String id) {
+    private ResponseEntity<?> delete(@PathVariable("id") Long id) {
         try {
-            activityServices.deleteActivity(Long.parseLong(id));
+            activityServices.deleteByActivityId(id);
             return ResponseEntity.ok().body(new Response<String>(
                     HttpServletResponse.SC_OK,
                     "",

@@ -40,4 +40,12 @@ public class UserServices {
         return userRepository.existsByEmail(email);
     }
 
+    public Long getIdFromEmail(String email) {
+        return userRepository.findByEmail(email).get().getId();
+    }
+
+    public User findById(Long userid) {
+        return userRepository.findById(userid).get();
+    }
+
 }

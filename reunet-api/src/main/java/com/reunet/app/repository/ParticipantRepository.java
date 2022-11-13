@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.reunet.app.models.Participant;
-import com.reunet.app.models.payload.ParticipantUser;
 
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
+    List<Participant> findAllByGroupId(Long groupId);
 
 }

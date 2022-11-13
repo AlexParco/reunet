@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.reunet.app.models.Activity;
-import com.reunet.app.models.Group;
 import com.reunet.app.repository.ActivityReponsitory;
 
 @Service
@@ -25,7 +24,7 @@ public class ActivityServices {
         return activityReponsitory.findById(activityId);
     }
 
-    public void deleteActivity(Long id) {
+    public void deleteByActivityId(Long id) {
         activityReponsitory.deleteById(id);
     }
 
@@ -41,7 +40,7 @@ public class ActivityServices {
         return activityReponsitory.save(activity);
     }
 
-    public List<Group> findAllByGroupsId(Long groupId) {
+    public List<Activity> findAllByGroupsId(Long groupId) {
         return activityReponsitory.findAllByGroupId(groupId);
     }
 

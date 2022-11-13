@@ -31,23 +31,21 @@ public class Activity {
 
     private String name;
 
-    @JsonAlias("group_id")
-    @JsonProperty("group_id")
     @Column(name = "group_id")
-    private Long group_id;
+    @JsonProperty("group_id")
+    private Long groupId;
 
     @JsonAlias("type")
     @JsonProperty("type")
     @Column(name = "type_activity")
     private String typeActivity;
 
-    @JsonAlias("closed_at")
     @JsonProperty("closed_at")
     @Column(name = "closed_at")
     private Date closedAt;
 
+    @JsonProperty("created_at")
     @Column(name = "created_at")
-    @JsonIgnore
     private Date createdAt;
 
     @Column(name = "updated_at")
