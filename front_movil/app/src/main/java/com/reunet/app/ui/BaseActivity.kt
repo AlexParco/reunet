@@ -30,16 +30,13 @@ abstract class BaseActivity <B: ViewBinding>(val bindingFactory: (LayoutInflater
         window.setLayout(((width * widthV ).toInt()), ((height * heightV).toInt()))
     }
 
-    fun showDatePicker(btnDate: Button){
-        val now = Calendar.getInstance()
-        val datePiker = DatePickerDialog(this, { view, year, month, day ->
-            var dayP:String
-            if(day < 10){
-                dayP = "0$day"
-            }else dayP = "$day"
-            btnDate.text = "$year-${month+1}-$dayP"
-        },
-            now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-        datePiker.show()
+    fun showDaterPickerDialog(btnDate:Button){
+        val datePicker = DatePickerFragment{day, month, year ->onDateSelected(btnDate, day, month, year)}
+        datePicker.show(supportFragmentManager, "datePicker")
+    }
+
+    private fun onDateSelected(btnDate:Button, day: Int, month: Int, year: Int){
+        val dayP:String = if (day < 10) "0$day" else "$day"
+        btnDate.text = "$year-${month+1}-$dayP"
     }
 }

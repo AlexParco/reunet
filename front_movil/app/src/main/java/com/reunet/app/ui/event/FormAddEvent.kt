@@ -72,7 +72,7 @@ class FormAddEvent : BaseActivity<ActivityFormAddEventBinding>(ActivityFormAddEv
         radioGroup?.setOnCheckedChangeListener(this@FormAddEvent)
 
         binding.activityClose.setOnClickListener{
-            showDatePicker(binding.activityClose)
+            showDaterPickerDialog(binding.activityClose)
         }
 
         getGroups()

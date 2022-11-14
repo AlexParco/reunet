@@ -5,9 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.reunet.app.R
 import com.reunet.app.databinding.ItemActivityBinding
@@ -16,13 +13,13 @@ import com.reunet.app.ui.event.EditEvent
 
 class EventAdapter(
     private val listActivity: List<Activity>,
-
     ): RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     private var ACTIVITY: String = "ACTIVITY"
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
     ): EventViewHolder {
         val itemActivityBinding = parent.inflate(R.layout.item_activity)
         return EventViewHolder(itemActivityBinding)
@@ -41,33 +38,32 @@ class EventAdapter(
 
     inner class EventViewHolder(view: View):RecyclerView.ViewHolder(view) {
         private val binding = ItemActivityBinding.bind(view)
+
         var icActivity = ""
 
         fun bind(activity: Activity, context: Context){
+            with(binding){
 
-            if(activity.typeActivity.equals("Task", true)){
-                icActivity = "ic_task"
-            }else if(activity.typeActivity.equals("Event", true)){
-                icActivity = "ic_event"
-            }else if(activity.typeActivity.equals("Sport", true)){
-                icActivity = "ic_sport"
-            }
+                if(activity.typeActivity.equals("Task", true)){
+                    icActivity = "ic_task"
+                }else if(activity.typeActivity.equals("Event", true)){
+                    icActivity = "ic_event"
+                }else if(activity.typeActivity.equals("Sport", true)){
+                    icActivity = "ic_sport"
+                }
 
-            val idResA = context.resources.getIdentifier(icActivity, "drawable", context.packageName)
+                val idResA = context.resources.getIdentifier(icActivity, "drawable", context.packageName)
 
-            activityName.text = activity.name
-            activityImg.setImageResource(idResA)
+                nameActivity.text = activity.name
+                imgActivity.setImageResource(idResA)
 
-            activityInfo.setOnClickListener{
-                val intent = Intent(context, EditEvent::class.java)
-                intent.putExtra(ACTIVITY, activity)
-                context.startActivity(intent)
+                infoActivity.setOnClickListener{
+                    val intent = Intent(context, EditEvent::class.java)
+                    intent.putExtra(ACTIVITY, activity)
+                    context.startActivity(intent)
+                }
             }
         }
-
-        val activityName: TextView = binding.nameActivity
-        val activityImg: ImageView = binding.imgActivity
-        val activityInfo: ImageButton = binding.infoActivity
     }
 }
 

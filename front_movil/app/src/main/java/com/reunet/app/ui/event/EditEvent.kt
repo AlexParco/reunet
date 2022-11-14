@@ -59,7 +59,7 @@ class EditEvent : BaseActivity<ActivityEditEventBinding>(ActivityEditEventBindin
         getGroup(event.groupId.toInt())
 
         binding.activityClose.setOnClickListener{
-            showDatePicker(binding.activityClose)
+            showDaterPickerDialog(binding.activityClose)
         }
 
         binding.updateActivity.setOnClickListener{
