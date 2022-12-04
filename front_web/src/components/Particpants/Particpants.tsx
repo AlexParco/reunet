@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/Auth.context"
+import { useGroup } from "@/context/Group.context"
 import { useParticipant } from "@/context/Participant.context"
 import { findAllUsers } from "@/services/user.service"
 import { User } from "@/types/user.type"
@@ -11,6 +12,7 @@ const Particpants = ({ participants }: { participants: User[] }) => {
   const [users, setUsers] = useState<User[]>([])
   const { deleteUser } = useParticipant()
   const { token, user } = useAuth()
+  const { groups } = useGroup()
 
   useEffect(() => {
     findAllUsers(token)
@@ -22,6 +24,9 @@ const Particpants = ({ participants }: { participants: User[] }) => {
         )
       })
       .catch(error => console.log(error))
+
+    const temp = groups.find(e => e.user_id === user.id)?.user_id === user.id
+    console.log(temp)
   }, [participants])
 
   return (
@@ -32,14 +37,17 @@ const Particpants = ({ participants }: { participants: User[] }) => {
           <Flex justify='space-between' align='center' key={i}>
             <Text >{userp.firstname}</Text>
             {
-              user.id !== userp.id &&
-              <IconButton
-                aria-label="delete-user"
-                colorScheme='red'
-                variant='ghost'
-                onClick={() => deleteUser(user.id as number)}
-                size='sm'
-                icon={<SmallCloseIcon />} />
+              groups.find(e => e.user_id === user.id)?.user_id === user.id ?
+                user.id !== userp.id &&
+                <IconButton
+                  aria-label="delete-user"
+                  colorScheme='red'
+                  variant='ghost'
+                  onClick={() => deleteUser(user.id as number)}
+                  size='sm'
+                  icon={<SmallCloseIcon />} />
+                :
+                null
             }
           </Flex>
         )}

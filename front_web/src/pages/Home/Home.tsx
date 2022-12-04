@@ -1,15 +1,7 @@
 import { Groups, Messages, Participants } from "@/components"
-import { useAuth } from "@/context/Auth.context"
 import { useGroup } from "@/context/Group.context"
 import { useParticipant } from "@/context/Participant.context"
-import { createMessage, findAllMessages } from "@/services/message.service"
-import { findAllPrtByGrpId } from "@/services/participant.service"
-import { findUserById } from "@/services/user.service"
-import { Message } from "@/types/message.type"
-import { User } from "@/types/user.type"
-import { Box, Button, Flex, FormControl, Heading, IconButton, Input, Text } from "@chakra-ui/react"
-import React, { useEffect, useState } from "react"
-import { TbSend } from "react-icons/tb"
+import { Flex } from "@chakra-ui/react"
 
 const Home = () => {
   const { keyword } = useGroup()
