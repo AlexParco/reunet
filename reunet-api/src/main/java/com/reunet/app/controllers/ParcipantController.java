@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,21 +54,16 @@ public class ParcipantController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> postParticipant(@RequestBody Participant participant,
-            @RequestHeader("Authorization") String token) {
+    public ResponseEntity<Response<Participant>> postParticipant(@RequestBody Participant participant) {
         try {
-            String email = jwtUtils.getEmailFromToken(token.substring(7));
-            Long userId = userServices.getIdFromEmail(email);
-            participant.setUserId(userId);
+            Participant particpantCreated = participantServices.create(participant);
 
-            participantServices.create(participant);
-
-            return ResponseEntity.ok().body(new Response<String>(
+            return ResponseEntity.ok().body(new Response<Participant>(
                     HttpServletResponse.SC_OK,
                     "",
-                    null));
+                    particpantCreated));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<Participant>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     "error creating new participant",
                     null));

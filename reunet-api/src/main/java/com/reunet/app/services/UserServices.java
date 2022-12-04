@@ -1,6 +1,7 @@
 package com.reunet.app.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,14 @@ public class UserServices {
         user.setCreatedAt(new Date());
         user.setUpdatedAt(new Date());
         userRepository.save(user);
+    }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     public Optional<User> findByEmail(String email) {

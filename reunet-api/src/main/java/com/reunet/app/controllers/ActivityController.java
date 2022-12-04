@@ -27,10 +27,10 @@ import com.reunet.app.services.ActivityServices;
 public class ActivityController {
 
     @Autowired
-    private ActivityServices activityServices;
+    ActivityServices activityServices;
 
     @GetMapping("")
-    private ResponseEntity<?> getAllActivitysByGroupId(@RequestParam Long groupid) {
+    public ResponseEntity<Response<List<Activity>>> getAllActivitysByGroupId(@RequestParam Long groupid) {
         try {
             List<Activity> groups = activityServices.findAllByGroupsId(groupid);
             return ResponseEntity.ok().body(new Response<List<Activity>>(
@@ -39,7 +39,7 @@ public class ActivityController {
                     groups));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<List<Activity>>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
                     null));
@@ -47,7 +47,7 @@ public class ActivityController {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<?> activityById(@PathVariable("id") Long id) {
+    public ResponseEntity<Response<Activity>> activityById(@PathVariable("id") Long id) {
         try {
             Activity activitie = activityServices.findActivityById(id).orElseThrow();
 
@@ -56,7 +56,7 @@ public class ActivityController {
                     "",
                     activitie));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<Activity>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
                     null));
@@ -64,7 +64,7 @@ public class ActivityController {
     }
 
     @PostMapping("")
-    private ResponseEntity<?> create(@RequestBody Activity activity) {
+    public ResponseEntity<Response<Activity>> create(@RequestBody Activity activity) {
         try {
 
             Activity createActivity = activityServices.createActivity(activity);
@@ -75,7 +75,7 @@ public class ActivityController {
                     createActivity));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<Activity>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
                     null));
@@ -83,7 +83,7 @@ public class ActivityController {
     }
 
     @PutMapping("{id}")
-    private ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody Activity activity) {
+    public ResponseEntity<Response<Activity>> update(@PathVariable("id") String id, @RequestBody Activity activity) {
         try {
             activity.setId(Long.parseLong(id));
 
@@ -95,7 +95,7 @@ public class ActivityController {
                     createActivity));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<Activity>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
                     null));
@@ -103,7 +103,7 @@ public class ActivityController {
     }
 
     @DeleteMapping("{id}")
-    private ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Response<String>> delete(@PathVariable("id") Long id) {
         try {
             activityServices.deleteByActivityId(id);
             return ResponseEntity.ok().body(new Response<String>(

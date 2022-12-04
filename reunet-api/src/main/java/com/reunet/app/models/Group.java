@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,7 +20,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "groups")
-@Entity
+@Entity(name = "groups")
 public class Group {
 
     @Id
@@ -29,8 +28,8 @@ public class Group {
     @Column(name = "group_id")
     private Long id;
 
-    @JsonAlias("user_id")
     @Column(name = "user_id")
+    @JsonProperty("user_id")
     private Long userId;
 
     @Column(name = "name")
