@@ -29,7 +29,7 @@ public class GroupController {
     private GroupServices groupServices;
 
     @GetMapping("")
-    private ResponseEntity<?> getAllGroups() {
+    private ResponseEntity<Response<List<Group>>> getAllGroups() {
         try {
             List<Group> groups = groupServices.findAllGroups();
             return ResponseEntity.ok().body(new Response<List<Group>>(
@@ -37,10 +37,10 @@ public class GroupController {
                     "",
                     groups));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<List<Group>>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
-                    ""));
+                    null));
         }
     }
 
