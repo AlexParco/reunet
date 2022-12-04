@@ -9,5 +9,5 @@ import com.reunet.app.models.Message;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    List<Message> findAllMessagesByGroupId(Long group_id);
+    List<Message> findAllMessagesByGroupId(Long groupId);
 }

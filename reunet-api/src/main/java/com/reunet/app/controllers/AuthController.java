@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,9 +27,6 @@ import com.reunet.app.models.payload.response.Response;
 import com.reunet.app.security.jwt.JwtUtils;
 import com.reunet.app.services.UserServices;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -44,9 +42,9 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<Response<String>> register(@RequestBody RegisterRequest registerRequest) {
         try {
-            if (userServices.existsByEmail(registerRequest.getEmail())) {
+            if (Boolean.TRUE.equals(userServices.existsByEmail(registerRequest.getEmail()))) {
                 return ResponseEntity.badRequest().body(new Response<String>(
                         HttpServletResponse.SC_BAD_REQUEST,
                         "email is alredy taken",
@@ -67,14 +65,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Response<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
         try {
 
-            if (!userServices.existsByEmail(loginRequest.getEmail())) {
-                return ResponseEntity.badRequest().body(new Response<String>(
+            if (Boolean.FALSE.equals(userServices.existsByEmail(loginRequest.getEmail()))) {
+                return ResponseEntity.badRequest().body(new Response<LoginResponse>(
                         HttpServletResponse.SC_BAD_REQUEST,
                         "user with this email doesnt exists",
-                        ""));
+                        null));
             }
 
             Authentication authentication = authenticationManager.authenticate(
@@ -86,12 +84,13 @@ public class AuthController {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
             List<String> roles = userDetails.getAuthorities().stream()
-                    .map(item -> item.getAuthority())
+                    .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
 
             String token = jwtUtils.generateToken(loginRequest.getEmail());
 
             User user = userServices.findByEmail(jwtUtils.getEmailFromToken(token)).get();
+
             user.setRole(roles.get(0));
 
             return ResponseEntity.ok().body(new Response<LoginResponse>(
@@ -100,10 +99,10 @@ public class AuthController {
                     new LoginResponse(user, token)));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<LoginResponse>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
-                    ""));
+                    null));
         }
 
     }

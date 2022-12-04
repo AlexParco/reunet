@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -43,9 +42,9 @@ public class User {
 
     @JsonProperty("created_at")
     @Column(name = "created_at")
-    private Date CreatedAt = new Date();
+    private Date createdAt = new Date();
 
     @JsonIgnore
     @Column(name = "updated_at")
-    private Date UpdatedAt = new Date();
+    private Date updatedAt = new Date();
 }

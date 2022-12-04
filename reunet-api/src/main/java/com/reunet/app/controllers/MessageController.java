@@ -36,29 +36,29 @@ public class MessageController {
     MessageServices messageServices;
 
     @PostMapping("")
-    public ResponseEntity<?> postMessage(@RequestBody Message message,
+    public ResponseEntity<Response<Message>> postMessage(@RequestBody Message message,
             @RequestHeader("Authorization") String token) {
         try {
             String email = jwtUtils.getEmailFromToken(token.substring(7));
             Long userId = userServices.getIdFromEmail(email);
             message.setUserId(userId);
 
-            messageServices.create(message);
+            Message messageCreated = messageServices.create(message);
 
-            return ResponseEntity.ok().body(new Response<String>(
+            return ResponseEntity.ok().body(new Response<Message>(
                     HttpServletResponse.SC_OK,
                     "",
-                    null));
+                    messageCreated));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<Message>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
-                    ""));
+                    null));
         }
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllMessagesByGroupId(@RequestParam Long groupid) {
+    public ResponseEntity<Response<List<Message>>> getAllMessagesByGroupId(@RequestParam Long groupid) {
         try {
 
             List<Message> messages = messageServices.findAllMessages(groupid);
@@ -69,10 +69,11 @@ public class MessageController {
                     messages));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+
+            return ResponseEntity.internalServerError().body(new Response<List<Message>>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
-                    ""));
+                    null));
         }
     }
 }

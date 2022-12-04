@@ -26,7 +26,7 @@ import com.reunet.app.services.GroupServices;
 public class GroupController {
 
     @Autowired
-    private GroupServices groupServices;
+    GroupServices groupServices;
 
     @GetMapping("")
     private ResponseEntity<?> getAllGroups() {
@@ -45,7 +45,7 @@ public class GroupController {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<?> getGroupById(@PathVariable("id") String id) {
+    public ResponseEntity<Response<Group>> getGroupById(@PathVariable("id") String id) {
         try {
             Group group = groupServices.findGroupById(Long.parseLong(id)).orElseThrow();
             return ResponseEntity.ok().body(new Response<Group>(
@@ -53,15 +53,15 @@ public class GroupController {
                     "",
                     group));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<Group>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
-                    ""));
+                    null));
         }
     }
 
     @PostMapping("")
-    private ResponseEntity<?> create(@RequestBody Group group) {
+    public ResponseEntity<Response<Group>> create(@RequestBody Group group) {
         try {
 
             Group createGroup = groupServices.createGroup(group);
@@ -72,7 +72,7 @@ public class GroupController {
                     createGroup));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<Group>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
                     null));
@@ -80,7 +80,7 @@ public class GroupController {
     }
 
     @PutMapping("{id}")
-    private ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody Group group) {
+    public ResponseEntity<Response<Group>> update(@PathVariable("id") String id, @RequestBody Group group) {
         try {
             group.setId(Long.parseLong(id));
             Group updateGroup = groupServices.updateGroup(group);
@@ -91,7 +91,7 @@ public class GroupController {
                     updateGroup));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new Response<String>(
+            return ResponseEntity.internalServerError().body(new Response<Group>(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage(),
                     null));
@@ -99,7 +99,7 @@ public class GroupController {
     }
 
     @DeleteMapping("{id}")
-    private ResponseEntity<?> delete(@PathVariable("id") String id) {
+    public ResponseEntity<Response<String>> delete(@PathVariable("id") String id) {
         try {
             groupServices.deleteGroup(Long.parseLong(id));
             return ResponseEntity.ok().body(new Response<String>(

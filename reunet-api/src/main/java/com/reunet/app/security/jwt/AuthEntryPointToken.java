@@ -24,7 +24,7 @@ public class AuthEntryPointToken implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        Response<String> body = new Response<String>(
+        Response<String> body = new Response<>(
                 HttpServletResponse.SC_UNAUTHORIZED,
                 authException.getMessage(),
                 null);

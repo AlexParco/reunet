@@ -10,5 +10,5 @@ import com.reunet.app.models.Activity;
 @Repository
 public interface ActivityReponsitory extends JpaRepository<Activity, Long> {
 
-    List<Activity> findAllByGroupId(Long group_id);
+    List<Activity> findAllByGroupId(Long groupId);
 }

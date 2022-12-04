@@ -15,12 +15,16 @@ public class ParticipantServices {
 
     @Autowired
     ParticipantRepository participantRepository;
+
+    @Autowired
     UserRepository userRepository;
 
-    public void create(Participant participant) {
+    public Participant create(Participant participant) {
+
         participant.setCreatedAt(new Date());
         participant.setUpdatedAt(new Date());
-        participantRepository.save(participant);
+
+        return participantRepository.save(participant);
     }
 
     public void delete(Long groupId) {
