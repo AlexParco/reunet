@@ -1,52 +1,57 @@
 package com.reunet.app.services
 
-import com.google.android.datatransport.runtime.dagger.Provides
+import com.reunet.app.models.Activity
 import com.reunet.app.models.Group
 import com.reunet.app.models.payload.request.GroupRequest
-import com.reunet.app.models.payload.response.GroupResponse
 import com.reunet.app.models.payload.response.ResponseApi
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import javax.inject.Singleton
+import retrofit2.http.*
 
 
 interface GroupService {
+
     @GET("group")
     @Headers("Content-Type: application/json")
     suspend fun getGroups():
-            Response<ResponseApi<List<Group>>>
+             Response<ResponseApi<List<Group>>>
+
+    @GET("activity")
+    @Headers("Content-Type: application/json")
+    suspend fun getActivityByGroupId(@Query("groupid") groupId: String):
+            Response<ResponseApi<List<Activity>>>
+
+    @GET("group/{id}")
+    @Headers("Content-Type: application/json")
+    suspend fun getGroupById(@Path("id") id: Int):
+            Response<ResponseApi<Group>>
 
     @POST("group")
     @Headers("Content-Type: application/json")
     suspend fun createGroup(@Body group: GroupRequest):
-        Response<ResponseApi<GroupResponse>>
+        Response<ResponseApi<Group>>
+
+    @PUT("group/{id}")
+    @Headers("Content-Type: application/json")
+    suspend fun updateGroup(
+        @Path("id")id: Int,
+        @Body group: GroupRequest):
+            Response<ResponseApi<Group>>
+
+    @DELETE("group/{id}")
+    @Headers("Content-Type: application/json")
+    suspend fun deleteGroup(@Path("id")id: Int):
+            Response<ResponseApi<String>>
 
     companion object {
-        @Provides
-        @Singleton
-        fun providesOkhttpClient(token:String): OkHttpClient {
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-            return OkHttpClient.Builder().addInterceptor(AuthInterceptor("Bearer",token )
-            ).addInterceptor(interceptor)
-                .build()
-        }
-
         fun build(token: String): GroupService{
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://reunet-api.herokuapp.com/api/v1/")
+                .baseUrl("http://192.168.0.3:9999/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(providesOkhttpClient(token))
+                .client(ProvideToken().providesOkhttpClient(token))
                 .build()
             return retrofit.create(GroupService::class.java)
         }
     }
-
 }

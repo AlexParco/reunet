@@ -5,6 +5,7 @@ import org.junit.Test
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
@@ -20,22 +21,9 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun test_format_date(){
-        val string_date = "12-12-2012"
-        val format = SimpleDateFormat("dd-MM-yyyy")
-        val date:Date = format.parse(string_date) as Date
-        val millis: Long = date.time
-        val d = Date(millis)
-        val f: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'")
-        val dateClose = f.format(d)
-        println(dateClose)
-        println(d)
+    fun test_format_date() {
+        val datetime = LocalDateTime.now()
+        println(datetime) // 2017-01-01T22:27:06.006276200
     }
 
-    @Test
-    fun test_format_date_2() {
-        val formatter = SimpleDateFormat("yyyy-MM-dd" , Locale.getDefault())
-        val dateClose = formatter.parse("2022-11-10") as Date
-        println(dateClose)
-    }
 }

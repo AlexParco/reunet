@@ -27,7 +27,7 @@ interface AuthService {
     companion object {
         fun build(): AuthService {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://reunet-api.herokuapp.com/api/v1/auth/")
+                .baseUrl("http://192.168.0.3:9999/api/v1/auth/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
