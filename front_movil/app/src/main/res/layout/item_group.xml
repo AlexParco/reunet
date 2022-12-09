@@ -8,13 +8,16 @@
     android:focusable="true"
     android:clickable="true"
     android:background="#1E1E1E"
+    app:cardCornerRadius="15dp"
+    android:layout_marginEnd="10dp"
     android:foreground="?android:attr/selectableItemBackground">
 
     <RelativeLayout
+        android:id="@+id/item_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:background="#1E1E1E"
+        android:background="@color/black"
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -28,15 +31,20 @@
 
         <TextView
             android:id="@+id/groupName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="241dp"
+            android:layout_height="56dp"
             android:layout_alignTop="@+id/imgGroup"
             android:layout_alignBottom="@+id/imgGroup"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="-8dp"
+            android:layout_marginEnd="69dp"
+            android:layout_marginBottom="-9dp"
             android:layout_toEndOf="@+id/imgGroup"
-            android:text="Group name"
             android:gravity="center"
+            android:text="Group name"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
 
         <ImageButton
             android:id="@+id/infoGroup"
@@ -47,6 +55,17 @@
             android:layout_marginEnd="16dp"
             android:background="@null"
             android:src="@drawable/ic_info" />
+
+        <ImageButton
+            android:id="@+id/joinGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            android:src="@drawable/ic_group_add"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
