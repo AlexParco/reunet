@@ -15,7 +15,6 @@ const Home = () => {
       mt='20'
     >
       <Flex
-        border='1px'
         margin='0'
         wrap='wrap'
       >

@@ -9,7 +9,7 @@ const Register = () => {
   const [role, setRole] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-  const { isLogged } = useAuth()
+  const { isLogged, register } = useAuth()
   const navegate = useNavigate()
 
   useEffect(() => {
@@ -22,6 +22,15 @@ const Register = () => {
 
 
   const handleSubmit = () => {
+    register({
+      lastname,
+      firstname,
+      email,
+      password,
+      role: "ROLE_USER",
+      avatar: ""
+    })
+    navegate("/login")
   }
 
 
@@ -34,6 +43,26 @@ const Register = () => {
     >
       <form onSubmit={handleSubmit}>
         <Heading>Register</Heading>
+        <FormControl mb={10}>
+          <Box mt={10}>
+            <FormLabel>Firstname</FormLabel>
+            <Input
+              type='text'
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+          </Box>
+        </FormControl>
+        <FormControl mb={10}>
+          <Box mt={10}>
+            <FormLabel>Lastname</FormLabel>
+            <Input
+              type='text'
+              value={lastname}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </Box>
+        </FormControl>
         <FormControl mb={10}>
           <Box mt={10}>
             <FormLabel>Email</FormLabel>

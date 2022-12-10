@@ -1,9 +1,10 @@
 import { useAuth } from "@/context/Auth.context"
 import { useGroup } from "@/context/Group.context"
-import { createMessage, findAllMessages } from "@/services/message.service"
+import { createMessage, deleteMessage, findAllMessages } from "@/services/message.service"
 import { findUserById } from "@/services/user.service"
 import { Message } from "@/types/message.type"
-import { Box, Flex, FormControl, IconButton, Input, useToast } from "@chakra-ui/react"
+import { DeleteIcon, WarningIcon } from "@chakra-ui/icons"
+import { Box, Button, Text, Flex, FormControl, IconButton, Input, Stack, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { TbSend } from "react-icons/tb"
 
@@ -11,7 +12,7 @@ const Messages = () => {
   const [body, setBody] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
   const { keyword } = useGroup()
-  const { token } = useAuth()
+  const { token, user } = useAuth()
   const toast = useToast()
 
   useEffect(() => {
@@ -30,6 +31,14 @@ const Messages = () => {
     }
     fetchData()
   }, [keyword])
+
+  const handleDelete = (id: number) => {
+    deleteMessage(id, token)
+      .then(_ => {
+        setMessages((prev) => prev.filter(e => e.message_id !== id))
+      })
+      .catch(error => console.log(error))
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -81,13 +90,19 @@ const Messages = () => {
       </form>
       <Box mt='6'>
         {messages.map((message, i) =>
-          <Box
+          <Flex
             key={i}
             p='2'
+            justify='space-between'
           >
-            <strong>{message.user?.firstname} </strong>: {message.body}
-            <hr />
-          </Box>
+            <Text>
+              <strong>{message.user?.firstname} </strong>: {message.body}
+            </Text>
+            {user.id == message.user?.id &&
+              <IconButton
+                onClick={() => handleDelete(message.message_id as number)}
+                size='sm' variant='ghost' aria-label="delete" icon={<DeleteIcon color='red' />} />}
+          </Flex>
         )}
       </Box>
 

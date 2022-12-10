@@ -25,8 +25,6 @@ const Particpants = ({ participants }: { participants: User[] }) => {
       })
       .catch(error => console.log(error))
 
-    const temp = groups.find(e => e.user_id === user.id)?.user_id === user.id
-    console.log(temp)
   }, [participants])
 
   return (
@@ -43,7 +41,7 @@ const Particpants = ({ participants }: { participants: User[] }) => {
                   aria-label="delete-user"
                   colorScheme='red'
                   variant='ghost'
-                  onClick={() => deleteUser(user.id as number)}
+                  onClick={() => deleteUser(userp.id as number)}
                   size='sm'
                   icon={<SmallCloseIcon />} />
                 :

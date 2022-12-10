@@ -57,8 +57,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.log(error)
       })
 
-    setUser(UserDefault)
-    setToken("")
   }
 
   const logout = () => {

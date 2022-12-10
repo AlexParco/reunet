@@ -33,4 +33,19 @@ export const createMessage = (message: Message, token: string): Promise<Response
       }
       return resp.json()
     })
-} 
+}
+
+export const deleteMessage = (id: number, token: string) => {
+  return fetch(API_URL + `message/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+  })
+    .then(resp => {
+      if (!resp.ok) {
+        throw new Error(resp.statusText)
+      }
+    })
+}

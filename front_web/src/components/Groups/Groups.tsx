@@ -1,68 +1,29 @@
 import { GroupCard } from "@/components"
 import { useAuth } from "@/context/Auth.context"
-import { useGroup } from "@/context/Group.context"
-import { useParticipant } from "@/context/Participant.context"
-import { createGroup, findAllGroups } from "@/services/group.service"
-import { findAllPrtByGrpId } from "@/services/participant.service"
-import { Group } from "@/types/group.type"
-import { sortGroups } from "@/util/sortArray"
+import { useGroup } from "@/hooks/useGroup"
 import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, FormLabel, Input, Stack, useDisclosure } from "@chakra-ui/react"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 const Groups = () => {
-  const { groups, setGroups } = useGroup()
-  const { user, token } = useAuth()
+  const { groups, addGroup } = useGroup()
+  const { user } = useAuth()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const refBtn = useRef<HTMLInputElement>(null)
-  const { addUser } = useParticipant()
 
   const [name, setName] = useState<string>("")
   const [description, setDescription] = useState<string>("")
 
-  useEffect(() => {
-    if (!token) return setGroups([])
-    const getAllGroups = async () => {
-      try {
-        const respgrp = await findAllGroups(token)
-
-        let tempGroups: Group[] = []
-        await Promise.all(respgrp.data.map(async (group) => {
-          const data = await findAllPrtByGrpId(group.id as number, token)
-          const inGroup = data.data.some(e => e.user_id == user.id)
-          if (inGroup) {
-            tempGroups.push(group)
-          }
-        }))
-        tempGroups = sortGroups(tempGroups)
-        setGroups(tempGroups)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getAllGroups()
-  }, [setGroups])
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    async function fetchData() {
-      try {
-        const resp = await createGroup({ id: 0, user_id: user.id, name, description }, token)
-        setGroups([...groups, resp.data])
-        addUser({ group_id: resp.data.id, user_id: user.id })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-
+    addGroup({ id: 0, user_id: user.id, name, description })
   }
 
   return (
     <Box >
       <Flex direction='column'>
-        {groups.map(group =>
+        {groups.map((group, i) =>
           <GroupCard
-            key={group.id}
+            key={i}
             {...group}
           />
         )}
