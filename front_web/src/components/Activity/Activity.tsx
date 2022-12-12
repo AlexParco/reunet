@@ -70,13 +70,13 @@ const Activity = ({ keyword }: { keyword: number }) => {
         aria-label="edit-group"
         icon={<AddIcon />}
       />
-      <Stack gap='4' mt='2'>
+      <Stack gap='4' mt='2' >
         {!(activities.length === 0) ?
           activities.map((e, i) =>
-
-            <Stack key={i} direction='row'>
+            <Stack key={i} direction='row' align='center'>
               <Text key={i}>{e.name} </Text>
               <Tag>{new Date(e.closed_at as string).toLocaleDateString()}</Tag>
+              <Tag>{e.type}</Tag>
               <ButtonGroup isAttached variant='outline' size='sm' >
                 <IconButton
                   onClick={() => handleDelete(e.id as number)}
