@@ -1,7 +1,7 @@
 export interface Activity {
-  activity_id?: string;
+  id?: number;
   name?: string;
-  group_id?: string;
+  group_id?: number;
   type?: string;
   closed_at?: string;
   created_at?: string;

@@ -28,7 +28,7 @@ const Navbar = () => {
         maxW='960px'
       >
         <Heading size='lg' >
-          Application
+          Reune T
         </Heading>
         {
           isLogged ?

@@ -1,25 +1,13 @@
 import { useAuth } from "@/context/Auth.context"
 import { useGroup } from "@/context/Group.context"
-import { deleteGruop } from "@/services/group.service"
 import { Group } from "@/types/group.type"
 import { Flex, Heading, Tag, Text } from "@chakra-ui/react"
 import { ModalCard } from "./ModalCard"
 
 const GroupCard = ({ id, name, description, created_at, user_id }: Group) => {
-  const { user, token } = useAuth()
-  const { setKeyword, setGroups, keyword, groups } = useGroup()
+  const { user } = useAuth()
+  const { setKeyword } = useGroup()
   const date = new Date(created_at as string).toLocaleDateString()
-
-  const handleDelete = () => {
-    deleteGruop(token, id)
-      .then(_ => {
-        const temp = groups.filter(e => e.id == id)
-        setGroups(temp)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
 
 
   return (

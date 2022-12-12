@@ -3,7 +3,7 @@ import { useGroup } from "@/context/Group.context"
 import { createMessage, deleteMessage, findAllMessages } from "@/services/message.service"
 import { findUserById } from "@/services/user.service"
 import { Message } from "@/types/message.type"
-import { DeleteIcon, WarningIcon } from "@chakra-ui/icons"
+import { DeleteIcon, InfoOutlineIcon, SmallCloseIcon, WarningIcon } from "@chakra-ui/icons"
 import { Box, Button, Text, Flex, FormControl, IconButton, Input, Stack, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { TbSend } from "react-icons/tb"
@@ -11,7 +11,7 @@ import { TbSend } from "react-icons/tb"
 const Messages = () => {
   const [body, setBody] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
-  const { keyword } = useGroup()
+  const { keyword, groups } = useGroup()
   const { token, user } = useAuth()
   const toast = useToast()
 
@@ -66,6 +66,16 @@ const Messages = () => {
     setBody("")
   }
 
+  const handleReport = (id: number) => {
+    setMessages(prev => prev.map(e => {
+
+      if (e.message_id === id) {
+        e.body = "mensaje eliminado temporalmente"
+      }
+      return e
+    }))
+  }
+
   return (
     <Box minW='500px' m='4' borderLeft='1px' px='10'>
       <form onSubmit={handleSubmit}>
@@ -96,6 +106,11 @@ const Messages = () => {
             justify='space-between'
           >
             <Text>
+              {(user.id === groups.find((e) => e.id == keyword)?.user_id) &&
+                <IconButton
+                  onClick={() => handleReport(message.message_id as number)}
+                  size='sm' variant='ghost' aria-label="delete" icon={<InfoOutlineIcon color='gray' />} />
+              }
               <strong>{message.user?.firstname} </strong>: {message.body}
             </Text>
             {user.id == message.user?.id &&

@@ -49,6 +49,7 @@ const Register = () => {
             <Input
               type='text'
               value={firstname}
+              required
               onChange={(e) => setFirstname(e.target.value)}
             />
           </Box>
@@ -59,6 +60,7 @@ const Register = () => {
             <Input
               type='text'
               value={lastname}
+              required
               onChange={(e) => setLastName(e.target.value)}
             />
           </Box>
@@ -69,6 +71,7 @@ const Register = () => {
             <Input
               type='text'
               value={email}
+              required
               onChange={(e) => setEmail(e.target.value)}
             />
           </Box>
@@ -79,6 +82,7 @@ const Register = () => {
             <Input
               type='password'
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>

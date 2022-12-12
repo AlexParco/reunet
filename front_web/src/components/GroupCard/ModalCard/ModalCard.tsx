@@ -1,14 +1,12 @@
-import { useAuth } from "@/context/Auth.context"
+import { Activity } from "@/components/Activity"
 import { useGroup } from "@/hooks/useGroup"
-import { findAllActivities } from "@/services/acitivity.service"
-import { Activity } from "@/types/activity.type"
 import { Group } from "@/types/group.type"
 import { SettingsIcon } from "@chakra-ui/icons"
 import {
   Button, FormControl, IconButton, Input, Modal, ModalBody,
   ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure
 } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { BiPencil } from 'react-icons/bi'
 
 interface Props {
@@ -21,17 +19,9 @@ const ModalCard = ({ keyword, group }: Props) => {
   const [state2, setState2] = useState<Boolean>(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { deleteGroup, editGroup } = useGroup()
-  const { token } = useAuth()
-  const [activities, setActivities] = useState<Activity[]>([])
   const [name, setName] = useState<string>("")
   const [description, setDescription] = useState<string>("")
 
-  useEffect(() => {
-    findAllActivities(group.id, token)
-      .then(_ => {
-        console.log(activities)
-      })
-  }, [keyword])
 
   const handleDelete = () => {
     deleteGroup(keyword)
@@ -91,30 +81,6 @@ const ModalCard = ({ keyword, group }: Props) => {
           <ModalCloseButton />
           <ModalBody>
             <Text as='b'>Descripcion</Text>
-            <FormControl as='form' onSubmit={handleSubmitDsrp}>
-              <Text>
-                {
-                  !state2 ? group.description
-                    : <Input
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      size='sm'
-                      w='70%' />
-                }
-                <IconButton
-                  size='sm'
-                  variant='ghot'
-                  ml='2'
-                  onClick={() => {
-                    setState2(!state2)
-                  }}
-                  color='grey'
-                  aria-label="edit-group"
-                  icon={<BiPencil />}
-                />
-              </Text>
-            </FormControl>
-            <Text as='b' mt='6'>Activities</Text>
             <IconButton
               size='sm'
               variant='ghot'
@@ -126,15 +92,19 @@ const ModalCard = ({ keyword, group }: Props) => {
               aria-label="edit-group"
               icon={<BiPencil />}
             />
-            <Text>
-
-              {!(activities.length === 0) ?
-                activities.map(e =>
-                  <li>{e.name}</li>
-                )
-                : "No hay actividades"
-              }
-            </Text>
+            <FormControl as='form' mb='8' onSubmit={handleSubmitDsrp}>
+              <Text>
+                {
+                  !state2 ? group.description
+                    : <Input
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      size='sm'
+                      w='70%' />
+                }
+              </Text>
+            </FormControl>
+            <Activity keyword={keyword} />
           </ModalBody>
 
           <ModalFooter>
