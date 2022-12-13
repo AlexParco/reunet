@@ -1,6 +1,7 @@
 import { useAuth } from '@/context/Auth.context'
 import { createActivity, deleteActivity, findAllActivities } from '@/services/acitivity.service'
 import { Activity as TypeActivity } from "@/types/activity.type"
+import { Group } from '@/types/group.type'
 import {
   AddIcon,
   SmallCloseIcon,
@@ -14,10 +15,10 @@ import {
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
-const Activity = ({ keyword }: { keyword: number }) => {
+const Activity = ({ keyword, group }: { keyword: number, group: Group }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [activities, setActivities] = useState<TypeActivity[]>([])
-  const { token } = useAuth()
+  const { token, user } = useAuth()
   const [type, setType] = useState<string>("tarea")
   const [name, setName] = useState<string>("")
   const [closedAt, setClosedAt] = useState<string>("")
@@ -61,15 +62,18 @@ const Activity = ({ keyword }: { keyword: number }) => {
   return (
     <>
       <Text as='b'>Activities</Text>
-      <IconButton
-        size='sm'
-        variant='ghot'
-        ml='2'
-        onClick={() => onOpen()}
-        color='grey'
-        aria-label="edit-group"
-        icon={<AddIcon />}
-      />
+      {
+        (group.user_id === user.id) &&
+        <IconButton
+          size='sm'
+          variant='ghot'
+          ml='2'
+          onClick={() => onOpen()}
+          color='grey'
+          aria-label="edit-group"
+          icon={<AddIcon />}
+        />
+      }
       <Stack gap='4' mt='2' >
         {!(activities.length === 0) ?
           activities.map((e, i) =>
@@ -77,12 +81,15 @@ const Activity = ({ keyword }: { keyword: number }) => {
               <Text key={i}>{e.name} </Text>
               <Tag>{new Date(e.closed_at as string).toLocaleDateString()}</Tag>
               <Tag>{e.type}</Tag>
-              <ButtonGroup isAttached variant='outline' size='sm' >
-                <IconButton
-                  onClick={() => handleDelete(e.id as number)}
-                  aria-label='delete-activity'
-                  icon={<SmallCloseIcon />} />
-              </ButtonGroup>
+              {
+                (group.user_id === user.id) &&
+                <ButtonGroup isAttached variant='outline' size='sm' >
+                  <IconButton
+                    onClick={() => handleDelete(e.id as number)}
+                    aria-label='delete-activity'
+                    icon={<SmallCloseIcon />} />
+                </ButtonGroup>
+              }
             </Stack>
           )
           : "No hay actividades"

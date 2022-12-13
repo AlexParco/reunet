@@ -1,4 +1,5 @@
 import { Activity } from "@/components/Activity"
+import { useAuth } from "@/context/Auth.context"
 import { useGroup } from "@/hooks/useGroup"
 import { Group } from "@/types/group.type"
 import { SettingsIcon } from "@chakra-ui/icons"
@@ -6,6 +7,7 @@ import {
   Button, FormControl, IconButton, Input, Modal, ModalBody,
   ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure
 } from "@chakra-ui/react"
+import { userInfo } from "os"
 import { useState } from "react"
 import { BiPencil } from 'react-icons/bi'
 
@@ -18,6 +20,7 @@ const ModalCard = ({ keyword, group }: Props) => {
   const [state1, setState1] = useState<Boolean>(false)
   const [state2, setState2] = useState<Boolean>(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { user } = useAuth()
   const { deleteGroup, editGroup } = useGroup()
   const [name, setName] = useState<string>("")
   const [description, setDescription] = useState<string>("")
@@ -67,31 +70,38 @@ const ModalCard = ({ keyword, group }: Props) => {
                     onChange={(e) => setName(e.target.value)}
                     w='40%' />
               }
-              <IconButton
-                size='sm'
-                variant='ghot'
-                ml='2'
-                onClick={() => setState1(!state1)}
-                color='grey'
-                aria-label="edit-group"
-                icon={<BiPencil />}
-              />
+              {
+                (group.user_id === user.id) &&
+                <IconButton
+                  size='sm'
+                  variant='ghot'
+                  ml='2'
+                  onClick={() => setState1(!state1)}
+                  color='grey'
+                  aria-label="edit-group"
+                  icon={<BiPencil />}
+                />
+              }
             </FormControl>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text as='b'>Descripcion</Text>
-            <IconButton
-              size='sm'
-              variant='ghot'
-              ml='2'
-              onClick={() => {
-                setState2(!state2)
-              }}
-              color='grey'
-              aria-label="edit-group"
-              icon={<BiPencil />}
-            />
+            {
+
+              (group.user_id === user.id) &&
+              <IconButton
+                size='sm'
+                variant='ghot'
+                ml='2'
+                onClick={() => {
+                  setState2(!state2)
+                }}
+                color='grey'
+                aria-label="edit-group"
+                icon={<BiPencil />}
+              />
+            }
             <FormControl as='form' mb='8' onSubmit={handleSubmitDsrp}>
               <Text>
                 {
@@ -104,14 +114,16 @@ const ModalCard = ({ keyword, group }: Props) => {
                 }
               </Text>
             </FormControl>
-            <Activity keyword={keyword} />
+            <Activity keyword={keyword} group={group} />
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme='red' onClick={() => handleDelete()} >Delete Group</Button>
+            {
+              (group.user_id === user.id) && <Button colorScheme='red' onClick={() => handleDelete()} >Delete Group</Button>
+            }
           </ModalFooter>
         </ModalContent>
       </Modal>

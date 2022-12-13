@@ -12,7 +12,7 @@ const Home = () => {
       align='center'
       justify='center'
       h='100%'
-      mt='20'
+      mt='8'
     >
       <Flex
         margin='0'
