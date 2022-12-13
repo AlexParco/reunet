@@ -3,6 +3,7 @@ package com.reunet.app.security.jwt;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -10,8 +11,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtUtils {
-    private String JWT_KEY = "secret";
-    private int JWT_EXPIRATION = 86400000;
+
+    @Value("${reunet.app.token.secret_key}")
+    private String JWT_KEY;
+    @Value("${reunet.app.token.expiration}")
+    private int JWT_EXPIRATION;
 
     public String generateToken(String username) {
         Date now = new Date();

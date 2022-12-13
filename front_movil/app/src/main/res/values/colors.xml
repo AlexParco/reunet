@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="backgroundAddGroup">#434343</color>
+    <color name="backgroundInfoGroup">#DDDCDC</color>
+    <color name="bgBtnMain">#1C1C1C</color>
+    <color name= "bgToolbar">#333D43</color>
+    <color name="bgSport">#E89821</color>
 </resources>

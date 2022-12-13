@@ -15,17 +15,19 @@ interface AuthService {
 
     @Headers("Content-Type: application/json")
     @POST("login")
-    suspend fun loginService(@Body user: LoginRequest): Response<ResponseApi<LoginResponse>>
+    suspend fun loginService(@Body user: LoginRequest):
+            Response<ResponseApi<LoginResponse>>
 
 
     @Headers("Content-Type: application/json")
     @POST("register")
-    suspend fun registerService(@Body user: RegisterRequest): Response<ResponseApi<String>>
+    suspend fun registerService(@Body user: RegisterRequest):
+            Response<ResponseApi<String>>
 
     companion object {
         fun build(): AuthService {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://reunet-api.herokuapp.com/api/v1/auth/")
+                .baseUrl("http://192.168.0.3:9999/api/v1/auth/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

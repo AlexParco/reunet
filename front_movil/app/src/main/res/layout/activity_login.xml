@@ -4,32 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    android:padding="40dp">
+    android:padding="40dp"
+    tools:context=".ui.view.user.LoginActivity">
 
     <LinearLayout
         android:id="@+id/container_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/logo_reunet"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
-            android:src="@drawable/logo"
-            android:id="@+id/logo_reunet"
-            />
+            android:src="@drawable/logo" />
 
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login to Reune T to continue"
             android:gravity="center"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login to Reune T to continue"
+                android:textSize="13dp" />
+
+            <Button
+                android:id="@+id/registerBtn"
+                android:layout_width="89dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:text="Sign up"
+                android:textAllCaps="false"
+                android:textColor="#272626"
+                app:backgroundTint="#ffff" />
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/email"
@@ -37,19 +57,18 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
-            android:ems="10"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:drawableStart="@drawable/custom_email_icon"
             android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/custom_email_icon"
             android:drawablePadding="15dp"
+            android:ems="10"
             android:hint="email"
             android:inputType="textEmailAddress"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo_reunet"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/logo_reunet" />
 
         <EditText
             android:id="@+id/password"
@@ -57,21 +76,20 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
-            android:ems="10"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:drawableStart="@drawable/custom_lock_icon"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/custom_lock_icon"
             android:drawablePadding="15dp"
+            android:ems="10"
             android:hint="password"
             android:inputType="textPassword"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_txt"
-            android:layout_marginBottom="10dp"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/email_txt" />
 
 
     </LinearLayout>
@@ -80,30 +98,12 @@
         android:id="@+id/loginBtn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:background="@drawable/custom_btn"
         android:text="Log In"
         app:backgroundTint="@null"
-        android:background="@drawable/custom_btn"
-        app:strokeColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/container_form"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
-
-
-    <Button
-        android:id="@+id/registerBtn"
-
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Register"
-        app:backgroundTint="@null"
-        android:background="@drawable/custom_btn"
-        app:strokeColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-        />
+        app:strokeColor="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

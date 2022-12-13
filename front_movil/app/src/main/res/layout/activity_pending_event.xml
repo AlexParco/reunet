@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.event.PendingEventActivity">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activitiesPending"
+        android:layout_below="@+id/recommendation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_activity_pending" />
+
+    <TextView
+        android:id="@+id/noPending"
+        android:layout_below="@+id/recommendation"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:gravity="center"
+        android:text="You do not have any pending activities"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/recommendation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar2"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="If any activity was already carried out before the date... mark it as finished"
+        android:textSize="12dp" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bgToolbar"
+        android:pointerIcon="arrow"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Talk to your colleagues"
+        app:titleTextColor="@color/white" />
+</RelativeLayout>
